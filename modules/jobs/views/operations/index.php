@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="operations-index">
     <div style="display: flex; justify-content: space-between;">
-        <div class="mb-3"> <?= Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?></div>
+        <div class="mb-3"> <?= Html::a('<i class="fa fa-refash"></i> ' . Yii::t('app', 'Refash'), ['index'], ['class' => 'btn btn-info']) ?></div>
         <div class="mb-3" style="text-align: right;">
 
             <?php
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'job_status',
                         'label' => Yii::t('app', 'Job Status'),
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width: 150px;'],
+                        'headerOptions' => ['style' => 'width: 120px;'],
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function ($model) {
                             return  Html::a(
@@ -128,6 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'start_date',
                     [
                         'attribute' => 'start_date',
+                        'options' => ['style' => 'width:250px'],
                         'format' => 'html',
                         'value' => function ($model) {
                             return $model->formatDateTime(strtotime($model->start_date));
@@ -136,11 +137,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'end_date',
                         'format' => 'html',
+                        'options' => ['style' => 'width:250px'],
                         'value' => function ($model) {
                             return $model->formatDateTime(strtotime($model->end_date));
                         },
                     ],
-                    'cost',
+                    // 'cost',
+                    [
+                        'attribute' => 'cost',
+                        'format' => 'html',
+                        'options' => ['style' => 'width:150px'],
+                        'value' => function ($model) {
+                            return $model->cost;
+                        },
+                    ],
                     //'remask:ntext',
                     //'docs:ntext',
                     [
