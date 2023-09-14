@@ -126,12 +126,12 @@ class Operations extends \yii\db\ActiveRecord
     // set format ตัดคำที่ 20 อักษร และเพิ่ม ... ต่อท้าย ตามด้วยกดที่ข้อความแล้วไปที่ view/:id
     public function generateTitleLink()
     {
-        $truncatedTitle = mb_substr($this->job->title, 0, 20, 'UTF-8');
-        if (mb_strlen($this->job->title, 'UTF-8') > 20) {
+        $truncatedTitle = mb_substr($this->job->title, 0, 18, 'UTF-8');
+        if (mb_strlen($this->job->title, 'UTF-8') > 18) {
             $truncatedTitle .= '...';
         }
 
-        $tooltipContent = $this->job->title;
+        $tooltipContent = $this->job->title .' '.$this->job->description;
         $tooltipLink = '<span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="' . $tooltipContent . '">'
             . Html::encode($truncatedTitle)
             . '</span>';

@@ -87,6 +87,7 @@ class OperationsController extends Controller
     {
         $model = new Operations();
 
+        $model->cost = 0;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -119,9 +120,6 @@ class OperationsController extends Controller
         $model = $this->findModel($id);
         $tempDocs = $model->docs;
         $modelJobs = $this->findModelJobs($model->job_id);
-
-        $model->cost = 0;
-
 
         if ($this->request->isPost && $model->load($this->request->post()) && $modelJobs->load($this->request->post())) {
             // $modelJobs->job_status = 3;

@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_id',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width: 130px;'],
+                        'headerOptions' => ['style' => 'width: 150px;'],
                         // 'contentOptions' => ['class' => 'text-center'],
                         'value' => function ($model) {
                             return  Html::a(

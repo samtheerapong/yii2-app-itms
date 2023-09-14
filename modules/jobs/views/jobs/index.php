@@ -1,7 +1,6 @@
 <?php
 
 use app\modules\jobs\models\Jobs;
-use app\modules\jobs\models\JobStatus;
 use app\modules\jobs\models\JobType;
 use app\modules\jobs\models\JobUrgency;
 use app\modules\system\models\Department;
@@ -40,7 +39,89 @@ $this->params['breadcrumbs'][] = $this->title;
                     ExportMenu::FORMAT_EXCEL_X => false,
                 ],
                 'dataProvider' => $dataProvider,
-                'columns' => [],
+                'columns' => [
+                    [
+                        'attribute' => 'job_status',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return '<span class="text-justify" style="color:'
+                                . $model->jobStatus->color . ';"><b>'
+                                . $model->jobStatus->name
+                                . ' </b></span>';
+                        },
+                    ],
+                    'number',
+                    'request_date:date',
+                    'title',
+                    [
+                        'attribute' => 'equipment',
+                        'format' => 'html',
+                        'visible' => !empty($model->equipment),
+                        'value' => function ($model) {
+                            return $model->equipment;
+                        },
+                    ],
+                    [
+                        'attribute' => 'description',
+                        'format' => 'ntext',
+                        'visible' => !empty($model->description),
+                        'value' => function ($model) {
+                            return $model->description;
+                        },
+                    ],
+                    [
+                        'attribute' => 'request_by',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return $model->requestBy->thai_name;
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'job_department',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return '<span class="text-justify" style="color:'
+                                . $model->jobDepartment->color . ';"><b>'
+                                . $model->jobDepartment->name
+                                . ' </b></span>';
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'location',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return '<span class="text-justify" style="color:'
+                                . $model->location0->color . ';"><b>'
+                                . $model->location0->name
+                                . ' </b></span>';
+                        },
+                    ],
+                    [
+                        'attribute' => 'job_type',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return '<span class="text-justify" style="color:'
+                                . $model->jobType->color . ';"><b>'
+                                . $model->jobType->name
+                                . ' </b></span>';
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'urgency',
+                        'format' => 'html',
+                        'value' => function ($model) {
+                            return '<span class="text-justify" style="color:'
+                                . $model->urgency0->color . ';"><b>'
+                                . $model->urgency0->name
+                                . ' </b></span>';
+                        },
+                    ],
+
+                    
+                ],
             ]) ?>
         </div>
     </div>
@@ -67,7 +148,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'number',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 120px;'],
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function ($model) {
                             return  Html::a(
@@ -97,7 +177,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 $truncatedSupplierName .= '...';
                             }
 
-                            $tooltipContent = $model->title;
+                            $tooltipContent = $model->title . " " . $model->description;
                             $tooltipLink = '<span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="' . $tooltipContent . '">'
                                 . $truncatedSupplierName
                                 . '</span>';
@@ -140,7 +220,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'request_by',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 190px;'],
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function ($model) {
                             return $model->requestBy->thai_name;
@@ -160,9 +239,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_department',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 100px;'],
                         'contentOptions' => ['class' => 'text-center'],
-                        // 'options' => ['style' => 'width:130px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobDepartment->color . ';"><b>' . $model->jobDepartment->code . '</b></span>';
                         },
@@ -182,9 +259,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_type',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 120px;'],
                         'contentOptions' => ['class' => 'text-center'],
-                        // 'options' => ['style' => 'width:130px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobType->color . ';"><b>' . $model->jobType->code . '</b></span>';
                         },
@@ -202,9 +277,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'urgency',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 80px;'],
                         'contentOptions' => ['class' => 'text-center'],
-                        // 'options' => ['style' => 'width:130px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->urgency0->color . ';"><b>' . $model->urgency0->name . '</b></span>';
                         },
@@ -222,9 +295,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'job_status',
                         'format' => 'html',
-                        // 'headerOptions' => ['style' => 'width: 120px;'],
                         'contentOptions' => ['class' => 'text-center'],
-                        // 'options' => ['style' => 'width:130px;'],
                         'value' => function ($model) {
                             return '<span class="text-justify" style="color:' . $model->jobStatus->color . ';"><b>' . $model->jobStatus->name . '</b></span>';
                         },
@@ -249,10 +320,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'urlCreator' => function ($action, $model, $key, $index, $column) {
                             return Url::toRoute([$action, 'id' => $model->id]);
                         },
-
-
                     ],
-
                 ],
             ]); ?>
         </div>
