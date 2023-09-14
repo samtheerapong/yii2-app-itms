@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 13, 2023 at 09:56 AM
+-- Generation Time: Sep 14, 2023 at 10:07 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.9
 
@@ -39,7 +39,7 @@ CREATE TABLE `auto_number` (
 --
 
 INSERT INTO `auto_number` (`group`, `number`, `optimistic_lock`, `update_time`) VALUES
-('J2309-???', 2, 1, 1694499599);
+('J2309-???', 8, 1, 1694684855);
 
 -- --------------------------------------------------------
 
@@ -206,8 +206,14 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `number`, `request_date`, `title`, `description`, `request_by`, `job_department`, `location`, `equipment`, `job_type`, `urgency`, `job_status`, `remask`, `docs`) VALUES
-(1, 'J2309-001', '2023-09-12', 'ติดตั้ง Digital Signature', '', 14, 6, 5, 'PC', 1, 1, 1, '', '{\"21decdb424c5c0e6baeaff81b9b954fb.jpg\":\"12-9-2566 9-26-19.jpg\"}'),
-(2, 'J2309-002', '2023-09-13', 'ประชุมประจำเดือนสิงหาคม', '', 5, 4, 5, '', 1, 1, 3, '', 'null');
+(1, 'J2309-001', '2023-09-05', 'ติดตั้งคอมพิวเตอร์เครื่องใหม่', 'QA02-NFC', 4, 7, 2, 'QA02-NFC', 1, 1, 3, '', '{\"75be28cf58eed87a23cad0d9f1d91136.jpg\":\"293201_0.jpg\",\"6b22f7fb9ec549b077d5628453ce7468.jpg\":\"293202_0.jpg\"}'),
+(2, 'J2309-002', '2023-09-06', 'ประชุมประจำเดือน', '', 11, 11, 11, '', 6, 1, 3, '', 'null'),
+(3, 'J2309-003', '2023-09-09', 'สำรวจทรัพย์สินใหม่', '', 12, 1, 6, '', 1, 1, 3, '', '{\"a3f8725227824aab9ee2c6a93aff2392.pdf\":\"Document (10).pdf\"}'),
+(4, 'J2309-004', '2023-09-11', 'ประชุมส่งมอบงานจากคุณจันทร์', 'ให้ไอทีตั้งค่าโปรแกรม Digital Signature', 11, 11, 11, '', 6, 1, 3, '', 'null'),
+(5, 'J2309-005', '2023-09-11', 'สำรวจจุดติดตั้งเครื่องสแกนนิ้วและกล้องวงจรปิด', 'สำหรับติดตั้งอาคารผลิต B4 ของแผนก PD', 12, 3, 19, '', 1, 1, 3, '', 'null'),
+(6, 'J2309-006', '2023-09-12', 'ติดตั้งมือถือใหม่', '', 15, 9, 6, 'มือถือ', 1, 1, 3, '', 'null'),
+(7, 'J2309-007', '2023-09-13', 'เปิดสิทธิ์ MRP', '', 4, 7, 2, 'MRP', 1, 1, 3, '', 'null'),
+(8, 'J2309-008', '2023-09-13', 'ตรวจรับ Switch PoE', '', 16, 4, 6, 'Switch PoE', 3, 1, 3, '', 'null');
 
 -- --------------------------------------------------------
 
@@ -228,7 +234,7 @@ CREATE TABLE `job_status` (
 
 INSERT INTO `job_status` (`id`, `code`, `name`, `color`) VALUES
 (1, 'New Request', 'แจ้งงาน', '#df2e39'),
-(2, 'In Progress', 'ดำเนินการ', '#F94C10'),
+(2, 'In Progress', 'ดำเนินการ', '#ff00ff'),
 (3, 'Finished', 'เสร็จสิ้น', '#1A5D1A'),
 (4, 'Canceled', 'ยกเลิก', '#454545');
 
@@ -425,8 +431,56 @@ CREATE TABLE `operations` (
 --
 
 INSERT INTO `operations` (`id`, `job_id`, `operator_by`, `details`, `sparepart_list`, `cost`, `start_date`, `end_date`, `remask`, `docs`) VALUES
-(1, 1, 12, 'ทดสอบ', 'ไม่มี', '100.00', '2023-09-12 08:00:00', '2023-09-12 17:00:00', 'ไม่มี', NULL),
-(2, 2, 16, 'เตรียมอุปกรณ์', '1. ตัวแปลง HDMI-VGA', '250.00', '2023-09-12 14:45:00', '2023-09-13 11:20:00', 'เดิมใช้ USB-C', NULL);
+(1, 1, 1, '', '', '30650.00', '2023-09-05 08:00:00', '2023-09-05 12:00:00', 'http://192.168.2.4/glpi/front/computer.form.php?id=46', '{\"01893b333ae0c002e9526b8b8aa6726a.jpg\":\"qa02.jpg\"}'),
+(2, 2, 1, '', '', '0.00', '2023-09-06 08:00:00', '2023-09-06 12:00:00', '', 'null'),
+(3, 3, 1, '', '', '0.00', '2023-09-09 09:00:00', '2023-09-09 12:00:00', '', 'null'),
+(4, 4, 1, '', '', '0.00', '2023-09-11 13:00:00', '2023-09-11 15:00:00', 'ไม่สามารถติดตั้งเครื่องคุณยศได้', '{\"181247fcfa64c8257cbf830fa774b6f8.xlsx\":\"งานจันโอนโรงงาน (1).xlsx\"}'),
+(5, 5, 1, 'ติดตั้งตรงเสาทางซ้าย ตรงทางเข้า', 'เครื่องสแแกนนิ้ว, กล้อง IP Camera, ระบบNetwork', '0.00', '2023-09-11 10:00:00', '2023-09-11 11:30:00', '', '{\"06b0aa4675ddd9ba019235a15f8b135a.jpg\":\"293657.jpg\"}'),
+(6, 6, 1, '', '', '3400.00', '2023-09-12 13:00:00', '2023-09-12 14:00:00', '', '{\"8fbe636eba15466c68312d924c3278c5.jpg\":\"293658_0.jpg\",\"193fd4903fe913fc1fe90222869260a1.jpg\":\"293659_0.jpg\"}'),
+(7, 7, 1, '', '', '0.00', '2023-09-14 10:00:00', '2023-09-14 12:00:00', '', '{\"fa5da34151cbdbef071ad6f4110c5d50.jpg\":\"13-9-2566 16-31-09.jpg\"}'),
+(8, 8, 1, '', '', '3580.00', '2023-09-13 14:00:00', '2023-09-13 15:00:00', '', '{\"189c8f6df934b71c8fc9befab66c7da4.jpg\":\"13-9-2566 16-25-52.jpg\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `operators`
+--
+
+CREATE TABLE `operators` (
+  `id` int(11) NOT NULL,
+  `thai_name` varchar(200) DEFAULT NULL,
+  `eng_name` varchar(200) DEFAULT NULL,
+  `nick_name` varchar(45) DEFAULT NULL,
+  `team_name` varchar(200) DEFAULT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `department` int(11) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `tel1` varchar(45) DEFAULT NULL,
+  `tel2` varchar(45) DEFAULT NULL,
+  `line` varchar(200) DEFAULT NULL,
+  `avatar` varchar(200) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `operators`
+--
+
+INSERT INTO `operators` (`id`, `thai_name`, `eng_name`, `nick_name`, `team_name`, `parent`, `department`, `email`, `tel1`, `tel2`, `line`, `avatar`, `status`) VALUES
+(1, 'ธีรพงศ์ ขันตา', 'Theerapong Khanta', 'แซม', 'IT', NULL, 1, 'itnfc@northernfoodcomplex.com', '', '', '', '', 1),
+(2, 'ช่างแผนกวิศวกรรม', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(3, 'เจษกร คำวรรณ์', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(4, 'คมสันต์ สมบูรณ์ชัย', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(5, 'มานพ ศรีจุมปา', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(6, 'ณรงค์ศักดิ์ แซ่จาว', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(7, 'ณัฐพล ขันเขียว', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(8, 'ภานุวัฒน์ ยางรัมย์', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(9, 'พงศพัศ สมใหม่', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(10, 'สราวุฒิ โฆษิตเกียรติคุณ', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(11, 'สุพจน์ ช่างฆ้อง', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(12, 'สุเทพ ปวงรังษี', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(13, 'สุริยา สมเพชร', '', '', '', NULL, NULL, '', '', '', '', '', NULL),
+(14, 'ยศพนธ์ โพธิ', '', '', '', NULL, NULL, '', '', '', '', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -768,6 +822,12 @@ ALTER TABLE `operations`
   ADD KEY `fk_operations_jobs1_idx` (`job_id`);
 
 --
+-- Indexes for table `operators`
+--
+ALTER TABLE `operators`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `position`
 --
 ALTER TABLE `position`
@@ -874,7 +934,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `job_status`
@@ -916,7 +976,13 @@ ALTER TABLE `office`
 -- AUTO_INCREMENT for table `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `operators`
+--
+ALTER TABLE `operators`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `position`
