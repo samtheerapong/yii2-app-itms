@@ -147,23 +147,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '<tr><th style="width: 200px;">{label}</th><td> {value}</td></tr>',
                         'attributes' => [
                             // 'id',
-                            // 'job_id',
-                            // [
-                            //     'attribute' => 'number',
-                            //     'value' => function ($model) use ($modelJobs) {
-                            //         if ($modelJobs !== null) {
-                            //             return $modelJobs->number;
-                            //         } else {
-                            //             return ''; // Return a default value or an empty string when $modelJobs is null
-                            //         }
-                            //     },
-                            // ],
-                            // 'operator_by',
+                                                     
                             [
                                 'attribute' => 'operator_by',
                                 'format' => 'html',
+                                'visible' => !empty($model->operator_by),
                                 'value' => function ($model) {
-                                    return $model->operatorBy->thai_name;
+                                    return $model->actorBy->thai_name;
                                 },
                             ],
 
@@ -185,30 +175,27 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'attribute' => 'cost',
+                                'visible' => !empty($model->cost),
                                 'format' => ['html'],
                                 'value' => function ($model) {
                                     return $model->cost;
                                 },
                             ],
-                            // [
-                            //     'attribute' => 'start_date',
-                            //     'format' => ['datetime', 'php:Y-m-d H:i'],
-                            //     'value' => function ($model) {
-                            //         return $model->start_date;
-                            //     },
-                            // ],
+                       
                             [
                                 'attribute' => 'start_date',
                                 'format' => 'html',
+                                'visible' => !empty($model->start_date),
                                 'value' => function ($model) {
-                                    return $model->formatDateTime(strtotime($model->start_date));
+                                    return $model->start_date !== null ? $model->formatDateTime(strtotime($model->start_date)) : '';
                                 },
                             ],
                             [
                                 'attribute' => 'end_date',
                                 'format' => 'html',
+                                'visible' => !empty($model->end_date),
                                 'value' => function ($model) {
-                                    return $model->formatDateTime(strtotime($model->end_date));
+                                    return $model->end_date !== null ? $model->formatDateTime(strtotime($model->end_date)) : '';
                                 },
                             ],
                             [
@@ -219,13 +206,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->remask;
                                 },
                             ],
+                            // [
+                            //     'attribute' => 'docs',
+                            //     'visible' => !empty($model->docs),
+                            //     'format' => 'ntext',
+                            //     'value' => function ($model) {
+                            //         return $model->docs;
+                            //     },
+                            // ],
                             [
                                 'attribute' => 'docs',
+                                'format' => 'html',
                                 'visible' => !empty($model->docs),
-                                'format' => 'ntext',
-                                'value' => function ($model) {
-                                    return $model->docs;
-                                },
+                                'value' => $model->listDownloadFiles('docs')
                             ],
 
                         ],

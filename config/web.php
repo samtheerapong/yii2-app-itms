@@ -42,6 +42,12 @@ $config = [
         ],
     ],
     'components' => [
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'decimalSeparator' => '.',
+            'thousandSeparator' => ',',
+            // Other formatter options
+        ],
         'image' => [
             'class' => 'yii\image\ImageDriver',
             'driver' => 'GD',  //GD or Imagick

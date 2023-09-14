@@ -11,7 +11,12 @@ use app\modules\jobs\models\Operations;
  */
 class OperationsSearch extends Operations
 {
-    public $job_status; // New attribute for filtering by job status
+
+    // New attribute for filtering by attribute
+    public $job_status;
+    public $request_by;
+    public $job_department;
+    public $title;
 
     /**
      * {@inheritdoc}
@@ -19,8 +24,8 @@ class OperationsSearch extends Operations
     public function rules()
     {
         return [
-            [['id', 'job_id', 'operator_by'], 'integer'],
-            [['details', 'sparepart_list', 'start_date', 'end_date', 'remask', 'docs', 'job_status'], 'safe'],
+            [['id', 'job_id', 'operator_by', 'job_department'], 'integer'],
+            [['details', 'sparepart_list', 'start_date', 'end_date', 'remask', 'docs', 'job_status', 'request_by', 'title'], 'safe'],
             [['cost'], 'number'],
         ];
     }
@@ -44,11 +49,17 @@ class OperationsSearch extends Operations
     public function search($params)
     {
         // $query = Operations::find();
+
+        /**
+         * Gets query for [[Job]]. 
+         * ดูที่ Models
+         */
         $query = Operations::find()->joinWith('job');
 
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
 
         // No search? Then return data Provider
@@ -80,7 +91,10 @@ class OperationsSearch extends Operations
             ->andFilterWhere(['like', 'docs', $this->docs]);
 
         // filter job_status
+        $query->andFilterWhere(['jobs.job_department' => $this->job_department]);
         $query->andFilterWhere(['jobs.job_status' => $this->job_status]);
+        $query->andFilterWhere(['jobs.request_by' => $this->request_by]);
+        $query->andFilterWhere(['like', 'jobs.title', $this->title]);
 
         return $dataProvider;
     }

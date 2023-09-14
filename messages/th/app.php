@@ -6,6 +6,7 @@ return [
     'Update' => 'ปรับปรุง',
     'Delete' => 'ลบ',
     'Select...' => 'เลือก...',
+    'Config' => 'การกำหนดค่า..',
 
     //Jobs IT
     'Jobs' => 'ระบบงานไอที',
@@ -24,12 +25,13 @@ return [
     'Docs' => 'ไฟล์แนบ',
 
     //Operations
+    'Create Job' => 'แจ้งงาน',
     'Operations' => 'การดำเนินการ',
     'Job ID' => 'เลขที่งาน',
     'Operator By' => 'ผู้ดำเนินการ',
     'Details' => 'รายละเอียด',
     'Sparepart List' => 'รายการอะไหล่',
-    'Cost' => 'ค่าใช้จ่าย(บาท)',
+    'Cost' => 'ค่าใช้จ่าย',
     'Start Date' => 'วันเริ่ม',
     'End Date' => 'วันเสร็จ',
     'Operate' => 'ดำเนินการ',

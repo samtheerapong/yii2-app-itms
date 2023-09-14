@@ -2,8 +2,9 @@
 
 use app\modules\jobs\models\Jobs;
 use app\modules\jobs\models\JobStatus;
-use app\modules\jobs\models\Operations;
+use app\modules\system\models\Department;
 use app\modules\system\models\User;
+use app\modules\system\models\Operators;
 use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -13,6 +14,7 @@ use kartik\grid\GridView;
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
+use kartik\icons\Icon;
 
 /** @var yii\web\View $this */
 /** @var app\modules\jobs\models\OperationsSearch $searchModel */
@@ -20,10 +22,22 @@ use yii\helpers\ArrayHelper;
 
 $this->title = Yii::t('app', 'Operations');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="operations-index">
     <div style="display: flex; justify-content: space-between;">
-        <div class="mb-3"> <?= Html::a('<i class="fa fa-refash"></i> ' . Yii::t('app', 'Refash'), ['index'], ['class' => 'btn btn-info']) ?></div>
+        <div class="mb-3">
+            <?= Html::a(
+                '<span class="fa fa-plus"></span> ' . Yii::t('app', 'Create Job'),
+                ['/jobs/jobs/create'],
+                ['class' => 'btn btn-danger']
+            ) ?>
+            <?= Html::a(
+                '<span class="fa fa-retweet"></span> ',
+                ['index'],
+                ['class' => 'btn btn-warning']
+            ) ?>
+        </div>
         <div class="mb-3" style="text-align: right;">
 
             <?php
@@ -58,36 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-                    // 'id',
-                    [
-                        'attribute' => 'job_status',
-                        'label' => Yii::t('app', 'Job Status'),
-                        'format' => 'html',
-                        'headerOptions' => ['style' => 'width: 120px;'],
-                        'contentOptions' => ['class' => 'text-center'],
-                        'value' => function ($model) {
-                            return  Html::a(
-                                '<span class="text-justify" style="color:' . $model->job->jobStatus->color . ';"><b>' . $model->job->jobStatus->name . '</b></span>',
-                                ['view', 'id' => $model->id]
-                            );
-                        },
-                        'filter' => Select2::widget([
-                            'model' => $searchModel,
-                            'attribute' => 'job_status',
-                            'data' => ArrayHelper::map(JobStatus::find()->all(), 'id', 'name'),
-                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
-                            'language' => 'th',
-                            'pluginOptions' => [
-                                'allowClear' => true
-                            ],
-                        ])
-                    ],
-                  
                     [
                         'attribute' => 'job_id',
                         'format' => 'html',
-                        'headerOptions' => ['style' => 'width: 150px;'],
-                        'contentOptions' => ['class' => 'text-center'],
+                        'headerOptions' => ['style' => 'width: 130px;'],
+                        // 'contentOptions' => ['class' => 'text-center'],
                         'value' => function ($model) {
                             return  Html::a(
                                 $model->job->number, // Access the Jobs model associated with Operations
@@ -105,16 +94,40 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ])
                     ],
-                    // 'job_id',
-                    // 'operator_by',
+
                     [
-                        'attribute' => 'operator_by',
+                        'attribute' => 'title',
+                        'options' => ['style' => 'width:200px;'],
                         'format' => 'html',
-                        // 'options' => ['style' => 'width:200px'],
-                        'value' => 'operatorBy.thai_name',
+                        'value' => function ($model) {
+                            return $model->generateTitleLink();
+                        },
                         'filter' => Select2::widget([
                             'model' => $searchModel,
-                            'attribute' => 'operator_by',
+                            'attribute' => 'title',
+                            'data' => ArrayHelper::map(Jobs::find()->all(), 'title', 'title'),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
+                    ],
+
+                    [
+                        'attribute' => 'request_by',
+                        'format' => 'html',
+                        'headerOptions' => ['style' => 'width: 240px;'],
+                        // 'contentOptions' => ['class' => 'text-center'],
+                        'value' => function ($model) {
+                            return Html::a(
+                                $model->job->requestBy->thai_name,
+                                ['view', 'id' => $model->id],
+                            );
+                        },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'request_by',
                             'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
                             'options' => ['placeholder' => Yii::t('app', 'Select...')],
                             'language' => 'th',
@@ -123,48 +136,119 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ])
                     ],
-                    // 'details:ntext',
-                    // 'sparepart_list:ntext',
-                    // 'start_date',
+
+                    [
+                        'attribute' => 'job_department',
+                        'format' => 'html',
+                        'headerOptions' => ['style' => 'width: 80px;'],
+                        'contentOptions' => ['class' => 'text-center'],
+                        'value' => function ($model) {
+                            $values = '<span class="text-justify" style="color:' . $model->job->jobDepartment->color . ';"><b>' . $model->job->jobDepartment->code . '</b></span>';
+                            return Html::a(
+                                $values,
+                                ['view', 'id' => $model->id],
+                            );
+                        },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'job_department',
+                            'data' => ArrayHelper::map(Department::find()->all(), 'id', 'code'),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
+                    ],
+
+                    [
+                        'attribute' => 'operator_by',
+                        'format' => 'html',
+                        'options' => ['style' => 'width:240px'],
+                        'value' => function ($model) {
+                            if ($model->operator_by !== null) {
+                                return $model->actorBy->thai_name;
+                            }
+                            return '';
+                        },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'operator_by',
+                            'data' => ArrayHelper::map(Operators::find()->all(), 'id', 'thai_name'),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
+                    ],
+
                     [
                         'attribute' => 'start_date',
-                        'options' => ['style' => 'width:250px'],
+                        'options' => ['style' => 'width:220px'],
                         'format' => 'html',
                         'value' => function ($model) {
-                            return $model->formatDateTime(strtotime($model->start_date));
+                            return $model->start_date !== null ? $model->formatDateTime(strtotime($model->start_date)) : '';
                         },
                     ],
                     [
                         'attribute' => 'end_date',
+                        'options' => ['style' => 'width:220px'],
                         'format' => 'html',
-                        'options' => ['style' => 'width:250px'],
                         'value' => function ($model) {
-                            return $model->formatDateTime(strtotime($model->end_date));
+                            return $model->end_date !== null ? $model->formatDateTime(strtotime($model->end_date)) : '';
                         },
                     ],
-                    // 'cost',
+
                     [
                         'attribute' => 'cost',
                         'format' => 'html',
-                        'options' => ['style' => 'width:150px'],
+                        'contentOptions' => ['class' => 'text-right'],
+                        'options' => ['style' => 'width:100px'],
                         'value' => function ($model) {
-                            return $model->cost;
+                            return $model->formattedCost;
                         },
+
                     ],
-                    //'remask:ntext',
-                    //'docs:ntext',
+
+                    [
+                        'attribute' => 'job_status',
+                        'format' => 'html',
+                        'headerOptions' => ['style' => 'width: 140px;'],
+                        'contentOptions' => ['class' => 'text-center'],
+                        'value' => function ($model) {
+                            return $model->getFormattedJobStatus();
+                        },
+                        'filter' => Select2::widget([
+                            'model' => $searchModel,
+                            'attribute' => 'job_status',
+                            'data' => ArrayHelper::map(JobStatus::find()->all(), 'id', 'name'),
+                            'options' => ['placeholder' => Yii::t('app', 'Select...')],
+                            'language' => 'th',
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ])
+                    ],
+
                     [
                         'class' => 'kartik\grid\ActionColumn',
-                        'options' => ['style' => 'width:150px'],
+                        'options' => ['style' => 'width:80px'],
                         'buttonOptions' => ['class' => 'btn btn-outline-dark btn-sm'],
-                        'template' => '<div class="btn-group btn-group-xs" role="group"> {operate} {view} {update} {delete}</div>',
+                        'template' => '<div class="btn-group btn-group-xs" role="group"> {update} </div>',
                         'urlCreator' => function ($action, $model, $key, $index, $column) {
                             return Url::toRoute([$action, 'id' => $model->id]);
                         },
+                        'buttons' => [
+                            'update' => function ($url, $model, $key) {
+                                return Html::a('<span class="fa fa-tools"></span>', $url, [
+                                    'title' => Yii::t('app', 'Actions'),
+                                    'class' => 'btn btn-outline-dark btn-sm',
+                                ]);
+                            },
 
-
+                        ],
                     ],
-
                 ],
             ]); ?>
         </div>

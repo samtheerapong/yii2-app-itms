@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84087af32bb19b2fef6afc5911219dac",
+    "content-hash": "14071b487dfefdc5e7bb8f2df48dfa48",
     "packages": [
         {
             "name": "2amigos/yii2-gallery-widget",
@@ -2120,7 +2120,7 @@
         },
         {
             "name": "kartik-v/yii2-icons",
-            "version": "v1.4.8",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-icons.git",
@@ -2137,6 +2137,7 @@
                 "kartik-v/yii2-krajee-base": ">=3.0.4",
                 "yiisoft/yii2-jui": "*"
             },
+            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
@@ -10000,6 +10001,7 @@
     "stability-flags": {
         "kartik-v/yii2-widgets": 20,
         "kartik-v/yii2-widget-select2": 20,
+        "kartik-v/yii2-icons": 20,
         "dektrium/yii2-rbac": 20,
         "dektrium/yii2-user": 20,
         "yurkinx/yii2-image": 20

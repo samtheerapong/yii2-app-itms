@@ -6,10 +6,16 @@ use app\modules\jobs\models\Jobs;
 use app\modules\jobs\models\JobsSearch;
 use app\modules\jobs\models\Operations;
 use app\modules\jobs\models\OperationsSearch;
+use Exception;
+use mdm\autonumber\AutoNumber;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
+use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 /**
  * OperationsController implements the CRUD actions for Operations model.
@@ -42,15 +48,11 @@ class OperationsController extends Controller
     public function actionIndex()
     {
         $searchModel = new OperationsSearch();
-        // $searchModelJobs = new JobsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        // $dataProviderJobs = $searchModelJobs->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            // 'searchModelJobs' => $searchModelJobs,
             'dataProvider' => $dataProvider,
-            // 'dataProviderJobs' => $dataProviderJobs,
         ]);
     }
 
@@ -115,11 +117,17 @@ class OperationsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $tempDocs = $model->docs;
         $modelJobs = $this->findModelJobs($model->job_id);
 
+        $model->cost = 0;
 
-        if ($this->request->isPost && $model->load($this->request->post()) & $modelJobs->load($this->request->post())) {
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $modelJobs->load($this->request->post())) {
             // $modelJobs->job_status = 3;
+            $this->CreateDir($model->id);
+            $model->docs = $this->uploadMultipleFile($model, $tempDocs);
+
             $modelJobs->save();
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Successfully'));
@@ -153,8 +161,9 @@ class OperationsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $this->removeUploadDir($model->id);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
@@ -172,5 +181,93 @@ class OperationsController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /***************** upload MultipleFile ******************/
+    private function uploadMultipleFile($model, $tempFile = null)
+    {
+        $files = [];
+        $json = '';
+        $tempFile = Json::decode($tempFile);
+        $UploadedFiles = UploadedFile::getInstances($model, 'docs');
+        if ($UploadedFiles !== null) {
+            foreach ($UploadedFiles as $file) {
+                try {
+                    $oldFileName = $file->basename . '.' . $file->extension;
+                    $newFileName = md5($file->basename . time()) . '.' . $file->extension;
+                    $file->saveAs(Operations::UPLOAD_FOLDER . '/' . $model->id . '/' . $newFileName);
+                    $files[$newFileName] = $oldFileName;
+                } catch (Exception $e) {
+                }
+            }
+            $json = json::encode(ArrayHelper::merge($tempFile, $files));
+        } else {
+            $json = $tempFile;
+        }
+        return $json;
+    }
+
+    /***************** Create Dir ******************/
+    private function CreateDir($folderName)
+    {
+        if ($folderName != NULL) {
+            $basePath = Operations::getUploadPath();
+            if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
+                BaseFileHelper::createDirectory($basePath . $folderName . '/thumbnail', 0777);
+            }
+        }
+        return;
+    }
+
+    /***************** Remove Upload Dir ******************/
+    private function removeUploadDir($dir)
+    {
+        BaseFileHelper::removeDirectory(Operations::getUploadPath() . $dir);
+    }
+
+    /***************** Download ******************/
+    public function actionDownload($id, $file, $fullname)
+    {
+        $model = $this->findModel($id);
+        if (!empty($model->id) && !empty($model->docs)) {
+            Yii::$app->response->sendFile($model->getUploadPath() . '/' . $model->id . '/' . $file, $fullname);
+        } else {
+            $this->redirect(['view', 'id' => $id]);
+        }
+    }
+
+    /***************** action Deletefile ******************/
+    public function actionDeletefile($id, $field, $fileName)
+    {
+        $status = ['success' => false];
+        if (in_array($field, ['docs'])) {
+            $model = $this->findModel($id);
+            $files =  Json::decode($model->{$field});
+            if (array_key_exists($fileName, $files)) {
+                if ($this->deleteFile('file', $model->id, $fileName)) {
+                    $status = ['success' => true];
+                    unset($files[$fileName]);
+                    $model->{$field} = Json::encode($files);
+                    $model->save();
+                }
+            }
+        }
+        echo json_encode($status);
+    }
+
+    /***************** deleteFile ******************/
+    private function deleteFile($type = 'file', $id, $fileName)
+    {
+        if (in_array($type, ['file', 'thumbnail'])) {
+            if ($type === 'file') {
+                $filePath = Operations::getUploadPath() . $id . '/' . $fileName;
+            } else {
+                $filePath = Operations::getUploadPath() . $id . '/thumbnail/' . $fileName;
+            }
+            @unlink($filePath);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

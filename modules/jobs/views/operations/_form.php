@@ -1,6 +1,7 @@
 <?php
 
 use app\modules\jobs\models\JobStatus;
+use app\modules\system\models\Operators;
 use app\modules\system\models\User;
 use kartik\widgets\DatePicker;
 use kartik\widgets\DateTimePicker;
@@ -20,6 +21,9 @@ use yii\widgets\DetailView;
 
 <div class="operations-form">
     <div class="row">
+
+       
+
         <div class="col-md-4">
             <div class="card border-info">
                 <div class="card-header text-white bg-info">
@@ -144,6 +148,7 @@ use yii\widgets\DetailView;
                     <?= Html::encode($this->title) ?>
                 </div>
                 <div class="card-body">
+                    
                     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
                     <?= $form->field($model, 'job_id')->hiddenInput()->label(false); ?>
@@ -152,9 +157,12 @@ use yii\widgets\DetailView;
                             <?= $form->field($modelJobs, 'job_status')->widget(Select2::class, [
                                 'language' => 'th',
                                 'data' => ArrayHelper::map(JobStatus::find()->all(), 'id', 'name'),
-                                'options' => ['placeholder' => ''],
+                                'options' => [
+                                    'placeholder' => '',
+                                    'required' => true,
+                                ],
                                 'pluginOptions' => [
-                                    'allowClear' => true
+                                    'allowClear' => true,
                                 ],
                             ]);
                             ?>
@@ -163,10 +171,12 @@ use yii\widgets\DetailView;
                         <div class="col-md-8">
                             <?= $form->field($model, 'operator_by')->widget(Select2::class, [
                                 'language' => 'th',
-                                'data' => ArrayHelper::map(User::find()->all(), 'id', 'thai_name'),
-                                'options' => ['placeholder' => ''],
+                                'data' => ArrayHelper::map(Operators::find()->all(), 'id', 'thai_name'),
+                                'options' => [
+                                    'placeholder' => '',
+                                ],
                                 'pluginOptions' => [
-                                    'allowClear' => true
+                                    'allowClear' => true,
                                 ],
                             ]);
                             ?>
@@ -182,6 +192,7 @@ use yii\widgets\DetailView;
                                         'format' => 'yyyy-mm-dd HH:ii',
                                         'todayHighlight' => true,
                                         'autoclose' => true,
+                                        'required' => true,
                                     ]
                                 ]
                             ); ?>
@@ -195,6 +206,7 @@ use yii\widgets\DetailView;
                                         'format' => 'yyyy-mm-dd HH:ii',
                                         'todayHighlight' => true,
                                         'autoclose' => true,
+                                        'required' => true,
                                     ]
                                 ]
                             ); ?>
@@ -227,8 +239,8 @@ use yii\widgets\DetailView;
                                 ],
                                 'pluginOptions' => [
                                     // 'initialPreview' => $model->listDownloadFiles('docs'),
-                                    // 'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
-                                    // 'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
+                                    'initialPreview' => $model->initialPreview($model->docs, 'docs', 'file'),
+                                    'initialPreviewConfig' => $model->initialPreview($model->docs, 'docs', 'config'),
                                     'allowedFileExtensions' => ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods', 'jpg', 'png', 'jpeg'],
                                     'showPreview' => true,
                                     'showCaption' => true,

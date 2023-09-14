@@ -84,10 +84,12 @@ class JobsController extends Controller
             $model->docs = $this->uploadMultipleFile($model);
             if ($model->save()) {
                 $modelOperations->job_id = $model->id;
+                $modelOperations->cost = 0;
                 if ($modelOperations->save()) {
                     Yii::$app->session->setFlash('success', Yii::t('app', 'Successfully'));
                 }
-                return $this->redirect(['view', 'id' => $model->id]);
+                // return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['/jobs/operations/index']);
             }
         }
 

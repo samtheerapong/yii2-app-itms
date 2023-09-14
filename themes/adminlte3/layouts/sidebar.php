@@ -48,41 +48,48 @@ use yii\helpers\Html; ?>
                         //'badge' => '<span class="right badge badge-info">2</span>',
                         'items' => [
                             [
+                                'label' => Yii::t('app', 'Create Job'),
+                                'url' => ['/jobs/jobs/create'],
+                                'icon' => 'fas fa-bolt text-danger',
+                            ],
+                            [
                                 'label' => Yii::t('app', 'Jobs'),
                                 'url' => ['/jobs/jobs/index'],
-                                'icon' => 'fas fa-flag text-danger',
+                                'icon' => 'fas fa-bookmark text-warning',
                             ],
                             [
                                 'label' => Yii::t('app', 'Operations'),
                                 'url' => ['/jobs/operations/index'],
-                                'icon' => 'fas fa-laptop text-danger',
+                                'icon' => 'fas fa-tools text-success',
+                            ],
+                           
+
+                        ],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Config'),
+                        'icon' => 'fas fa-cogs',
+                        //'badge' => '<span class="right badge badge-info">2</span>',
+                        'items' => [
+                            [
+                                'label' => Yii::t('app', 'Job Status'),
+                                'url' => ['/jobs/job-status/index'],
+                                'icon' => 'fas fa-angle-double-right',
                             ],
                             [
-                                'label' => Yii::t('app', 'Config'),
-                                'icon' => 'fas fa-cogs',
-                                //'badge' => '<span class="right badge badge-info">2</span>',
-                                'items' => [
-                                    [
-                                        'label' => Yii::t('app', 'Job Status'),
-                                        'url' => ['/jobs/job-status/index'],
-                                        'icon' => 'fas fa-angle-double-right',
-                                    ],
-                                    [
-                                        'label' => Yii::t('app', 'Job Type'),
-                                        'url' => ['/jobs/job-type/index'],
-                                        'icon' => 'fas fa-angle-double-right',
-                                    ],
-                                    [
-                                        'label' => Yii::t('app', 'Job Urgency'),
-                                        'url' => ['/jobs/job-urgency/index'],
-                                        'icon' => 'fas fa-angle-double-right',
-                                    ],
-
-                                ],
+                                'label' => Yii::t('app', 'Job Type'),
+                                'url' => ['/jobs/job-type/index'],
+                                'icon' => 'fas fa-angle-double-right',
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Job Urgency'),
+                                'url' => ['/jobs/job-urgency/index'],
+                                'icon' => 'fas fa-angle-double-right',
                             ],
 
                         ],
                     ],
+                 
                     [
                         'label' => Yii::t('app', 'IT Asset'),
                         'icon' => 'fas fa-home',

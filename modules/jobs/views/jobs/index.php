@@ -24,7 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="jobs-index">
     <div style="display: flex; justify-content: space-between;">
-        <div class="mb-3"> <?= Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?></div>
+        <div class="mb-3">
+            <?= Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create New'), ['create'], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('<span class="fa fa-retweet"></span> ', ['index'], ['class' => 'btn btn-warning']) ?>
+        </div>
         <div class="mb-3" style="text-align: right;">
 
             <?php
