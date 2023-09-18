@@ -29,7 +29,7 @@
         "kartik-v/yii2-icons": "@dev",
         "dektrium/yii2-rbac": "1.0.0-alpha@dev",
         "mdmsoft/yii2-admin": "*",
-        "dektrium/yii2-user": "0.9.*@dev",
+        "dektrium/yii2-user": "*",
         "miloschuman/yii2-highcharts-widget": "*",
         "yii2assets/yii2-printthis": "^1.0",
         "kartik-v/yii2-mpdf": "^1.0",

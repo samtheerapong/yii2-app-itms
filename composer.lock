@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14071b487dfefdc5e7bb8f2df48dfa48",
+    "content-hash": "bccdfbdd1abcdf2e0a60b509e8da953e",
     "packages": [
         {
             "name": "2amigos/yii2-gallery-widget",
@@ -1175,16 +1175,16 @@
         },
         {
             "name": "dektrium/yii2-user",
-            "version": "dev-master",
+            "version": "0.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dektrium/yii2-user.git",
-                "reference": "761ae89f188bfa87eb72a9d5fe0cff015a9451e1"
+                "reference": "8f2daea532f7efefc3f808e50d74a91c0de71ff4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/761ae89f188bfa87eb72a9d5fe0cff015a9451e1",
-                "reference": "761ae89f188bfa87eb72a9d5fe0cff015a9451e1",
+                "url": "https://api.github.com/repos/dektrium/yii2-user/zipball/8f2daea532f7efefc3f808e50d74a91c0de71ff4",
+                "reference": "8f2daea532f7efefc3f808e50d74a91c0de71ff4",
                 "shasum": ""
             },
             "require": {
@@ -1199,7 +1199,6 @@
                 "codeception/verify": "^0.3.1",
                 "yiisoft/yii2-codeception": "^2.0.0"
             },
-            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "bootstrap": "dektrium\\user\\Bootstrap",
@@ -1236,7 +1235,7 @@
                 "issues": "https://github.com/dektrium/yii2-user/issues?state=open",
                 "source": "https://github.com/dektrium/yii2-user"
             },
-            "time": "2020-05-12T01:59:55+00:00"
+            "time": "2018-04-03T12:24:41+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -10003,7 +10002,6 @@
         "kartik-v/yii2-widget-select2": 20,
         "kartik-v/yii2-icons": 20,
         "dektrium/yii2-rbac": 20,
-        "dektrium/yii2-user": 20,
         "yurkinx/yii2-image": 20
     },
     "prefer-stable": false,
